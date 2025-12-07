@@ -136,21 +136,9 @@ _ReSharper*/
 # TeamCity is a build add-in
 _TeamCity*
 
-# DotCover is a Code Coverage Tool
-*.dotCover
-
 # AxoCover is a Code Coverage Tool
 .axoCover/*
 !.axoCover/settings.json
-
-# Coverlet is a free, cross platform Code Coverage Tool
-coverage*.json
-coverage*.xml
-coverage*.info
-
-# Visual Studio code coverage results
-*.coverage
-*.coveragexml
 
 # NCrunch
 _NCrunch_*
@@ -332,9 +320,6 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
-
-# OpenCover UI analysis results
-OpenCover/
 
 # Azure Stream Analytics local run output
 ASALocalRun/
