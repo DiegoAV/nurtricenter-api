@@ -369,13 +369,6 @@ FodyWeavers.xsd
 bin/
 obj/
 
-# Test results & coverage
-TestResults/
-coveragereport/
-*.trx
-*.coverage
-coverage.cobertura.xml
-
 # IDE/usuario
 .vscode/
 *.user
