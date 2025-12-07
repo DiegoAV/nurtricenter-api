@@ -362,3 +362,30 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+
+
+# Build output
+bin/
+obj/
+
+# Test results & coverage
+TestResults/
+coveragereport/
+*.trx
+*.coverage
+coverage.cobertura.xml
+
+# IDE/usuario
+.vscode/
+*.user
+*.suo
+*.swp
+
+# Docker logs
+*.log
+
+# SQLite local DB (no versionar)
+API/NurTricenter.db
+API/NurTricenter.db-shm
+API/NurTricenter.db-wal

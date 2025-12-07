@@ -1,0 +1,44 @@
+.dockerignore
+
+# Ignorar archivos y carpetas del sistema
+.git
+.gitignore
+.idea
+.vscode
+.DS_Store
+Thumbs.db
+
+# Archivos de dependencias y builds locales
+node_modules
+dist
+build
+target
+bin
+obj
+out
+
+# Archivos temporales y de logs
+*.log
+*.tmp
+*.swp
+*.bak
+*.old
+
+# Archivos de entorno
+.env
+.env.*
+!env.example
+
+# Documentación y pruebas
+docs
+tests
+coverage
+*.md
+
+# Archivos de configuración locales
+docker-compose.override.yml
+*.local.*
+
+# Archivos del sistema operativo
+ehthumbs.db
+desktop.ini

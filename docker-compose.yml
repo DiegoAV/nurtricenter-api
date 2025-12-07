@@ -1,0 +1,16 @@
+
+services:
+  nutricentro-api:
+    image: tosmuer/nutricentro-api:1.0.0
+    container_name: nutricentro-api
+    ports:
+      - "8080:80" # Acceso desde http://localhost:8080
+    volumes:
+      - sqlite_data:/app/Data # Persistencia para SQLite
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+    restart: always
+
+volumes:
+  sqlite_data:
