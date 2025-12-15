@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "fc3010a0-a827-4298-806f-b6626c0089ce",
+		"name": "NutriCentro - Integración",
+		"description": "Pruebas de integración: Servicios, Contratos, Calendario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19983276"
+	},
+	"item": [
+		{
+			"name": "Servicios - OK: Crear servicio válido",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nombre\": \"Catering Vegano\",\n  \"duracionDias\": 30,\n  \"modalidadRevision\": \"Quincenal\",\n  \"costo\": 500.00,\n  \"incluyeFinesDeSemana\": true\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/servicios",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"servicios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Servicios - ERROR: Crear servicio inválido (costo 0, nombre vacío)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nombre\": \"\",\n  \"duracionDias\": 0,\n  \"modalidadRevision\": \"\",\n  \"costo\": 0,\n  \"incluyeFinesDeSemana\": true\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/servicios",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"servicios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Servicios - GET: Listar servicios (obtener IDs)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/servicios",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"servicios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Contratos - OK: Crear contrato (usar servicioId válido)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Guardar contratoId para siguientes pruebas",
+							"var json = pm.response.json();",
+							"pm.collectionVariables.set(\"contratoIdValido\", json.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"pacienteId\": \"00000000-0000-0000-0000-000000000001\",\n  \"servicioId\": \"{{servicioIdValido}}\",\n  \"fechaInicio\": \"{{fechaInicioOk}}\",\n  \"politicaCambio\": \"Debe avisar con 2 días de anticipación\",\n  \"horarioPreferido\": \"08:00:00\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/contratos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"contratos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Contratos - ERROR: Crear contrato con servicioId inexistente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"pacienteId\": \"00000000-0000-0000-0000-000000000001\",\n  \"servicioId\": \"00000000-0000-0000-0000-000000000999\",\n  \"fechaInicio\": \"{{fechaInicioOk}}\",\n  \"politicaCambio\": \"Debe avisar con 2 días de anticipación\",\n  \"horarioPreferido\": \"08:00:00\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/contratos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"contratos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Calendario - GET: Ver calendario por contratoId (OK)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/calendario/{{contratoIdValido}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"calendario",
+						"{{contratoIdValido}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Calendario - ERROR: Actualizar horario con menos de 2 días",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"calendarioId\": \"{{calendarioIdValido}}\",\n  \"nuevoHorario\": \"10:30:00\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/calendario/actualizar-horario",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"calendario",
+						"actualizar-horario"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "servicioIdValido",
+			"value": ""
+		},
+		{
+			"key": "contratoIdValido",
+			"value": ""
+		},
+		{
+			"key": "calendarioIdValido",
+			"value": ""
+		},
+		{
+			"key": "fechaInicioOk",
+			"value": ""
+		}
+	]
+}
