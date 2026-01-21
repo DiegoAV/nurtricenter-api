@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NutriCentro.ContractTests.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NutriCentro.ContractTests.Provider", "NutriCentro.ContractTests.Provider\NutriCentro.ContractTests.Provider.csproj", "{B37E2586-4775-4F53-8DA9-5634FA65BC28}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NurTriCentro.IntegrationTests", "NurTriCentro.IntegrationTests\NurTriCentro.IntegrationTests.csproj", "{0CF54FF4-BC9F-4BC9-93FC-F0E943C369CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{B37E2586-4775-4F53-8DA9-5634FA65BC28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B37E2586-4775-4F53-8DA9-5634FA65BC28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B37E2586-4775-4F53-8DA9-5634FA65BC28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CF54FF4-BC9F-4BC9-93FC-F0E943C369CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CF54FF4-BC9F-4BC9-93FC-F0E943C369CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CF54FF4-BC9F-4BC9-93FC-F0E943C369CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CF54FF4-BC9F-4BC9-93FC-F0E943C369CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
