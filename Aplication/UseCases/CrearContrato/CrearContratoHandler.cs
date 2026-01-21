@@ -5,7 +5,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Aplication.UseCases.CrearContrato
@@ -25,30 +25,45 @@ namespace Aplication.UseCases.CrearContrato
         {
             var servicio = await _servicioRepository.ObtenerServicioPorIdAsync(command.Request.ServicioId);
             if (servicio == null)
-                throw new Exception("Servicio no encontrado.");
+                throw new KeyNotFoundException($"Servicio {command.Request.ServicioId} no encontrado.");
 
-            var contrato = new Contrato
+            var contrato = BuildContrato(command.Request, servicio);
+
+            var creado = await _contratoRepository.CrearContratoAsync(contrato);
+
+            var calendario = GenerateCalendario(creado, servicio);
+
+            await _contratoRepository.GuardarCalendarioAsync(calendario);
+
+            return MapToDto(creado);
+        }
+
+        // Extraído para reducir la complejidad del Handle
+        private static Contrato BuildContrato(CrearContratoRequest req, Servicio servicio)
+        {
+            return new Contrato
             {
                 Id = Guid.NewGuid(),
-                pacienteId = command.Request.PacienteId,
+                pacienteId = req.PacienteId,
                 servicioId = servicio.Id,
-                fechaInicio = command.Request.FechaInicio,
-                fechaFin = command.Request.FechaInicio.AddDays(servicio.duracionDias),
-                politicaCambio = command.Request.PoliticaCambio,
+                fechaInicio = req.FechaInicio,
+                fechaFin = req.FechaInicio.AddDays(servicio.duracionDias),
+                politicaCambio = req.PoliticaCambio,
                 estado = "Activo",
                 montoTotal = servicio.costo,
                 servicio = servicio
             };
+        }
 
-            var creado = await _contratoRepository.CrearContratoAsync(contrato);
-
-
+        // Extraído para aislar la lógica de generación de calendario
+        private static IEnumerable<CalendarioEntrega> GenerateCalendario(Contrato contrato, Servicio servicio)
+        {
             var calendario = new List<CalendarioEntrega>();
+
             for (int i = 0; i < servicio.duracionDias; i++)
             {
                 var fechaEntrega = contrato.fechaInicio.AddDays(i);
 
-                // Si no se entregan fines de semana, omitir sábados y domingos
                 if (!servicio.incluyeFinesDeSemana &&
                     (fechaEntrega.DayOfWeek == DayOfWeek.Saturday || fechaEntrega.DayOfWeek == DayOfWeek.Sunday))
                 {
@@ -66,8 +81,11 @@ namespace Aplication.UseCases.CrearContrato
                 });
             }
 
-            await _contratoRepository.GuardarCalendarioAsync(calendario); // obtiene la lista de entregas generada
+            return calendario;
+        }
 
+        private static ContratoDto MapToDto(Contrato creado)
+        {
             return new ContratoDto
             {
                 Id = creado.Id,
